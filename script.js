@@ -1,20 +1,24 @@
 let divContainer = document.querySelector(".div-container");
+let isDown = false;
+
+divContainer.addEventListener("mouseleave", () => {
+    isDown = false;
+});
 
 drawGrid(16);
 
 function drawGrid(size) {
     let px = 960 / size;
-    let isDown = false;
     for(let i = 0; i < size*size; i++){
         let gridDiv = document.createElement("div");
-        gridDiv.setAttribute("style", `width: ${px}px; height: ${px}px`);
+        gridDiv.setAttribute("style", `width: ${px}px; height: ${px}px; opacity: 0`);
         gridDiv.addEventListener("mousedown", () => {
             isDown = true;
-            gridDiv.style.backgroundColor = "lightgray";
+            darkenGrid(gridDiv);
         });
         gridDiv.addEventListener("mouseenter", () => {
             if(isDown) {
-                gridDiv.style.backgroundColor = "lightgray";
+                darkenGrid(gridDiv);
             }
         });
         gridDiv.addEventListener("mouseup", () => {
@@ -24,6 +28,13 @@ function drawGrid(size) {
     }
 }
 
+function darkenGrid(gridDiv) {
+    let currentOpacity = parseFloat(gridDiv.style.opacity);
+    if (currentOpacity < 1) {
+        gridDiv.style.opacity = currentOpacity + 0.1;
+    }
+    gridDiv.style.backgroundColor = "black";
+}
 
 let resetBtn = document.querySelector("#reset-button");
 resetBtn.addEventListener("click", () => {
@@ -38,5 +49,4 @@ resetBtn.addEventListener("click", () => {
     
     divContainer.replaceChildren();
     drawGrid(num);
-
 });

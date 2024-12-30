@@ -1,7 +1,7 @@
 * {
     padding: 0;
     margin: 0;
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
 }
 
 #title {
@@ -25,11 +25,7 @@
     width: 960px; 
     margin-left: auto;
     margin-right: auto;
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-
-.div-container div {
+    margin-top: 20px;
+    margin-bottom: 40px;
     border: 1px solid black; 
-    box-sizing: border-box;
 }
