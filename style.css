@@ -4,18 +4,32 @@
     box-sizing: border-box;
 }
 
+#title {
+    margin-top: 20px;
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#reset-button {
+    margin-top: 20px;
+    display: block;
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .div-container {
     display: flex;
     flex-wrap: wrap;
-    width: 100px; 
+    width: 960px; 
     margin-left: auto;
     margin-right: auto;
     padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .div-container div {
-    width: 25px;
-    height: 25px;
     border: 1px solid black; 
     box-sizing: border-box;
 }
