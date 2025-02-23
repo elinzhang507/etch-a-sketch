@@ -1,6 +1,11 @@
 let divContainer = document.querySelector(".div-container");
 let isDown = false;
 
+let isDarkenChecked = false;
+let isRandomChecked = false;
+
+let inputSize = '';
+
 divContainer.addEventListener("mouseleave", () => {
     isDown = false;
 });
@@ -11,14 +16,20 @@ function drawGrid(size) {
     let px = 960 / size;
     for(let i = 0; i < size*size; i++){
         let gridDiv = document.createElement("div");
-        gridDiv.setAttribute("style", `width: ${px}px; height: ${px}px; opacity: 0`);
+        isDarkenChecked ? 
+            gridDiv.setAttribute("style", `width: ${px}px; height: ${px}px; opacity: 0`) :
+            gridDiv.setAttribute("style", `width: ${px}px; height: ${px}px`);
         gridDiv.addEventListener("mousedown", () => {
             isDown = true;
-            darkenGrid(gridDiv);
+            if(isDarkenChecked) darkenGrid(gridDiv);
+            if(isRandomChecked) setRandomColour(gridDiv);
+            if(!isDarkenChecked && !isRandomChecked) gridDiv.style.backgroundColor = "lightgray";
         });
         gridDiv.addEventListener("mouseenter", () => {
             if(isDown) {
-                darkenGrid(gridDiv);
+                if(isDarkenChecked) darkenGrid(gridDiv);
+                if(isRandomChecked) setRandomColour(gridDiv);
+                if(!isDarkenChecked && !isRandomChecked) gridDiv.style.backgroundColor = "lightgray";
             }
         });
         gridDiv.addEventListener("mouseup", () => {
@@ -36,17 +47,38 @@ function darkenGrid(gridDiv) {
     gridDiv.style.backgroundColor = "black";
 }
 
+function setRandomColour(gridDiv) {
+    let r = Math.floor(Math.random() * 256);
+    let g = Math.floor(Math.random() * 256);
+    let b = Math.floor(Math.random() * 256);
+    gridDiv.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+}
+
 let resetBtn = document.querySelector("#reset-button");
 resetBtn.addEventListener("click", () => {
-    let num = prompt("Enter an integer between 1 and 100");
-    if (num != null) {
-        num = parseInt(num);
-        while(num > 100 || num < 1 || isNaN(num)) {
-            num = prompt("Try again! Enter an integer between 1 and 100");
-            num = parseInt(num);
+    inputSize = prompt("Enter an integer between 1 and 100");
+    if (inputSize != null) {
+        inputSize = parseInt(inputSize);
+        while(inputSize > 100 || inputSize < 1 || isNaN(inputSize)) {
+            inputSize = prompt("Try again! Enter an integer between 1 and 100");
+            inputSize = parseInt(inputSize);
         }
     }
-    
     divContainer.replaceChildren();
-    drawGrid(num);
+    drawGrid(inputSize);
+});
+
+let darkenGridOption = document.querySelector("#darken-option");
+let randomColoursOption = document.querySelector("#random-option");
+
+darkenGridOption.addEventListener("change", (event) => {
+    isDarkenChecked = event.target.checked;
+    divContainer.replaceChildren();
+    inputSize === '' ? drawGrid(16) : drawGrid(inputSize)
+});
+
+randomColoursOption.addEventListener("change", (event) => {
+    isRandomChecked = event.target.checked;
+    divContainer.replaceChildren();
+    inputSize === '' ? drawGrid(16) : drawGrid(inputSize)
 });
